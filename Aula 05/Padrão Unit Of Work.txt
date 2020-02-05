@@ -1,0 +1,16 @@
+Padrão Unit of Work
+
+Definição de Martin Fowler:
+
+- Um unidade de trabalho rastreia tudo o que é feito durantes a transação de negócios que pode afetar a camada de persitência.
+Ao concluir, ela descobre tudo o que precisa ser feito para alterar a camada de persistência como resultado do trabalho
+
+Controller - Unit of Work - Repositorio - EF Core DbContext - MySql 
+
+A unidade de trabalho representa uma transação quando usada em camadas de dados
+
+Ela reverterá a transação se o Commit() não tiver sido chamado antes de ser descartado 
+
+AddScoped - Em uma aplicação web, cada request cria um novo escopo de serviço separado 
+
+O contêiner DI controla todos os serviços e eles são liberados e descartados quando a sua vida útil terminar.

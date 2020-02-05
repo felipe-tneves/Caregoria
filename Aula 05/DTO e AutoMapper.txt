@@ -1,0 +1,49 @@
+AutoMapper e DTO 
+
+DTO - Data Transfer Object 
+
+Expondo recursos da Web Api usando as Entidades do modelo 
+
+Entidades usadas para representar o nosso modelo de domínio e gerar as tabelas no banco de dados da nossa aplicação 
+
+Estamos expondo todas as informações das entidades e do nosso modelo
+
+Não é uma boa prática retornar as entidades do domínio a partir dos métodos Action de uma API 
+
+Uma abordagem mais segura é exibir e expor soamente as informações necessárias, restritas a um conjunto de dados
+
+Como podemos restringir a exposição de informações das nossas entidades?
+
+Usando DTO - Data Transfer Objects
+
+Um DTO é um contêiner de dados usado para transportar dados entre camadas de uma aplicação 
+
+Vamos usar DTOs para representar os dados que desejamos expor aos clientes da nossa API 
+
+DTO e um paralelo com as viewsModels
+
+Definir quais informações desejamos expor aos clientes da nossa API
+
+Criar objetos DTO com essas informações 
+
+Estoque - será informado automaticamente 
+DataCadastro será informado automaticamente 
+
+Benefícios em usar DTOs
+
+A utilização de DTOs ajuda na evolução da nossa API, pois se eu precisar enviar uma informação extra aos clientes, eu possodefinir essa informação apenas no DTO, e, não preciso alterar o nosso modelo de entidades.
+
+Da mesma forma se eu precisar criar uma nova propriedade na entidade Produto que não desejo expor, isso vai afetar apenas o nosso modelo, enquanto que o DTO, vai ficar inalterado.
+
+Assim partes distintas da nossa aplicação podem evoluir de maneira independente sem afetar os clientes da API 
+
+AutoMapper
+
+Faz o mapeamento entre os objetos que representam as nossas entidades e os objetos que representam nossos DTOs e filtra as propriedades que desejamos expor aos clientes 
+
+Incluir as seguintes bibliotecas via Nuget
+
+1- AutoMapper 
+2- AutoMapper.Extensions.Microsoft.DependencyInjection
+
+

@@ -1,0 +1,828 @@
+
+<!-- saved from url=(0050)http://www.macoratti.net/19/08/aspnc_restrota1.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><style data-merge-styles="true"></style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASP.NET Core&nbsp; -&nbsp; Restrições de Rotas </title>
+<style type="text/css">
+body {
+	margin:0;
+	padding:0;
+	background:#cccccc;
+	text-align:center; /* hack para o IE */	
+}
+#tudo {
+	width: 955px;
+	margin:0 auto;			
+	padding: 5px;
+	text-align:left; /* "remédio" para o hack do IE */	
+}
+#conteudo {
+	padding: 5px;
+	background-color: #ffffff;
+}
+</style></head>
+
+
+<body>
+<div id="tudo">
+<div id="conteudo">
+
+<p><font color="#004080" size="5" face="Segoe UI">&nbsp;</font><strong><font color="#000080" size="5" face="Trebuchet MS"><img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/maco10.gif" width="233" height="32"></font></strong><font color="#800080" size="5" face="Trebuchet MS"><b>ASP.NET 
+Core&nbsp; -&nbsp; Restrições de Rotas</b></font></p>
+
+<hr>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="92%">
+  <tbody><tr>
+    <td width="5%" align="center">
+    <span style="letter-spacing: 0.05em; ">
+    <font face="Trebuchet MS">
+    <img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/mac3_1.jpg" width="73" height="92"></font></span></td>
+    <td width="95%">
+    <span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Neste artigo 
+	veremos como&nbsp; usar as restrições de rotas na <font color="#0000FF">ASP .NET Core.</font></font></span></td>
+  </tr>
+</tbody></table>
+
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">O roteamento 
+na ASP.NET Core é o processo de mapeamento de requisições recebidas para a 
+lógica do aplicativo que reside nos controladores e métodos Actions.</font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">A ASP.NET Core mapeia a requisição recebida com base nas rotas configuradas no 
+seu aplicativo e, para cada rota, você pode definir configurações específicas, 
+como valores padrão, manipuladores de mensagens, restrições e assim por diante.</font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Existem algumas maneiras de controlar o roteamento em um aplicativo ASP.NET 
+Core, e, as mais comuns são:</font></span></p>
+<ul>
+	<li><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">
+	<font color="#0000FF">Roteamento convencional</font>: Aa rota é determinada com 
+base em convenções definidas em modelos de rota que, em tempo de execução, 
+mapearão requisições para controladores e Actions (métodos).</font></span></li>
+</ul>
+<ol>
+	<li><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">
+	<font color="#0000FF">Roteamento baseado em atributos:</font> A rota é 
+determinada com base nos atributos que você define em seus controladores e 
+métodos. As definições nos atributos irão realizar o mapeamento para as Actions 
+do controlador.</font></span></li>
+</ol>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">As <u>
+<font color="#0000FF">restrições de rota</font></u> nos ajudam a filtrar ou 
+impedir que os valores indesejados atinjam os métodos Action de um controlador. 
+Isso é feito através da verificação da restrição com relação ao valor do 
+parâmetro de URL. Como exemplo de restrição de rota podemos querer rotear os 
+requests para corresponder a uma rota específica somente se o valor
+<font color="#0000FF">int</font> for fornecido para um parâmetro de URL.</font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">
+<font size="5" color="#800080">Como funciona a restrição de rotamento ?</font><br>
+<br>
+Existem duas maneiras pelas quais você pode adicionar uma restrição a um 
+parâmetro de URL.</font></span></p>
+<ol>
+	<li><span style="letter-spacing: 0.05em">
+	<font face="Trebuchet MS" color="#0000FF">De forma <i>Inline</i> com o parâmetro 
+	URL</font></span></li>
+	<li><span style="letter-spacing: 0.05em">
+	<font color="#0000FF" face="Trebuchet MS">Usando o argumento de restrição do 
+	método <i>MapRoute</i></font></span></li>
+</ol>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">As restrições
+<font color="#800080">Inline</font> ou embutidas são adicionadas ao parâmetro 
+URL após o sinal de dois pontos :</font></span></p>
+<table border="0" width="82%" bgcolor="#F2F2F2">
+	<tbody><tr>
+		<td><span style="letter-spacing: 0.05em"><font face="Trebuchet MS"><br>
+		<font color="#0000FF" size="4">&nbsp;routes.MapRoute ("default", 
+		"{controller = Home} / {action = Index} / </font>
+		<font size="4" color="#FF0000">{id: int?}</font><font color="#0000FF" size="4">");<br>
+&nbsp;</font></font></span></td>
+	</tr>
+</tbody></table>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Depois que o 
+mecanismo de roteamento localiza uma correspondência para a URL de entrada, ele 
+chama a restrição de rota para cada segmento da URL para ver se ela passa na 
+verificação. As restrições atuam fazendo uma simples decisão
+<font color="#0000FF">sim/não</font> sobre se o valor é aceitável ou não.</font></span></p>
+<p><font face="Trebuchet MS"><span style="letter-spacing: 0.05em">Vamos então 
+criar uma aplicação ASP .NET Core MVC para analizar as restrições de rotas.</span></font></p>
+<p><span style="letter-spacing: 0.05em">
+<font face="Trebuchet MS" size="5" color="#800080">Criando o projeto ASP .NET 
+Core MVC no VS 
+2019 Community</font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Vamos criar&nbsp;uma aplicação <font color="#0000FF">ASP .NET Core Web Application</font> usando 
+o template <font color="#0000FF">Web Application</font> no Visual Studio 2019 Community 
+chamada <font color="#0000FF">Mvc_RestricaoRotas</font>;</font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Abra o VS 2019 
+Community e selecione :<font color="#0000FF"> Create a new Project</font></font></span></p>
+<p><img border="1" src="./ASP.NET Core  -  Restrições de Rotas_files/aspnc_gberr11.jpg" width="718" height="497"></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Selecionando 
+em <font color="#0000FF">Language</font> : C#, Platform: <font color="#0000FF">All Platforms
+</font>e em
+<font color="#0000FF">Project Type</font>: web podemos selecionar o template ASP 
+.NET Core Web Application:</font></span></p>
+<p><img border="1" src="./ASP.NET Core  -  Restrições de Rotas_files/aspnc_gberr12.jpg" width="665" height="462"></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">A seguir vamos 
+informar o nome do projeto: <font color="#0000FF">Mvc_RestricaoRota </font>, sua localização e nome da solução, 
+que é&nbsp; o mesmo nome do projeto;</font></span></p>
+<table border="1" width="35%" cellspacing="0" cellpadding="0">
+	<tbody><tr>
+		<td><img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/aspnc_restrota11.jpg" width="710" height="505"></td>
+	</tr>
+</tbody></table>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Finalmente 
+selecione a plataforma <font color="#0000FF">.NET Core</font> e
+<font color="#0000FF">ASP .NET Core 2.2</font> e o template<font color="#0000FF"> 
+Web Application.</font></font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Marque a opção 
+para <font color="#0000FF">configurar HTTP</font> e não vamos usar Autenticação 
+nem o Docker:</font></span></p>
+<p><img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/aspnc_restrota12.jpg" width="771" height="532"></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Ao final 
+teremos um projeto ASP .NET MVC com um controlador chamado <font color="#0000FF">
+HomeController</font> definido na pasta <font color="#0000FF">Controllers</font>.</font></span></p>
+<p><img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/aspnc_restrota13.jpg" width="329" height="543"></p>
+<p><span style="letter-spacing: 0.05em">
+<font face="Trebuchet MS" size="5" color="#800080">Restrições de Rotas</font></span></p>
+<div class="text-wrap tlid-copy-target">
+	<div class="result-shield-container tlid-copy-target" tabindex="0">
+		<span style="letter-spacing: 0.05em"><font face="Trebuchet MS">No 
+		projeto criado vamos abrir o arquivo<font color="#0000FF"> Startup.cs</font> 
+		e analizar o método <font color="#0000FF">Configure</font> listado 
+		abaixo:</font></span><p>
+		<img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/aspnc_restrota14.jpg" width="741" height="489"></p></div>
+</div>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Observe que em
+<font color="#0000FF">app.UseMvc() </font>temos a definição de uma roteamento 
+padrão que </font></span><font face="Trebuchet MS">
+<span style="letter-spacing: 0.05em">divide todas as requisições de entrada em 
+três segmentos:<b><font color="#0000FF">"{controller}/{action}/{id?}";</font>&nbsp;&nbsp;&nbsp;
+</b></span></font></p>
+<ul>
+	<li><font face="Trebuchet MS" color="#000080">
+	<span style="letter-spacing: 0.05em">O primeiro segmento é mapeado para o 
+	nome de um Controlador;<b> {controller} , </b>se nenhum for informado o 
+	padrão é o controlador <b>Home</b></span></font></li>
+	<li><font face="Trebuchet MS" color="#000080">
+	<span style="letter-spacing: 0.05em">O segundo segmento é mapeado para o 
+	nome de uma ação;<b> {action},</b> se nenhuma for informada o padrão é a 
+	Action<b> Index</b></span></font></li>
+	<li><font face="Trebuchet MS" color="#000080">
+	<span style="letter-spacing: 0.05em">O terceiro segmento é mapeado para um 
+	parâmetro passado para ação chamado id;<b> {id}</b></span></font></li>
+</ul>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Vamos agora 
+alterar o código do controlador <font color="#0000FF">HomeController</font> 
+conforme abaixo:</font></span></p>
+<p><img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/aspnc_restrota15.jpg" width="616" height="316"></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Executando a 
+aplicação, ao fazer uma requisição o usando a URL <b>&nbsp;<font color="#0000FF">/Home/Index/10</font></b>&nbsp; 
+teremos uma correspondência com a rota padrão definida da seguinte forma:</font></span></p>
+<ol>
+	<li><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Home irá 
+	acionar o controlador <font color="#0000FF">Home</font>;</font></span></li>
+	<li><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Index irá 
+	acionar o método Action <font color="#0000FF">Index</font>;</font></span></li>
+	<li><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">10 será 
+	passado como parâmetro para o método <font color="#0000FF">Action Index</font> 
+	e você verá como resultado :<br>
+	<font color="#0000FF"><b>"Id informado -&gt; 10"</b></font> 'no navegador;</font></span></li>
+</ol>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Uma requisição 
+para <font color="#0000FF"><b>&nbsp;/Home/Index/Teste</b></font> também 
+corresponderá à rota. O roteador analisa o parâmetro '<font color="#0000FF">Teste</font>'&nbsp; 
+para o valor 0 e o injeta como parâmetro para indexar a ação e você verá&nbsp; a 
+mensagem :<br>
+<b><font color="#0000FF">"Id informado -&gt; 0"</font></b> no navegador.</font></span></p>
+<table border="1" width="42%" cellspacing="0" cellpadding="0">
+	<tbody><tr>
+		<td><img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/aspnc_restrota16.jpg" width="783" height="109"></td>
+	</tr>
+</tbody></table>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Você pode impedir que isso aconteça usando uma restrição de rota no parâmetro de 
+URL id.</font></span></p>
+<p><span style="letter-spacing: 0.05em">
+<font face="Trebuchet MS" size="5" color="#800080">Usando Restrições embutidas 
+(Inline)</font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Como já vimos 
+as restrições
+<font color="#800080">Inline</font> ou embutidas são adicionadas ao parâmetro 
+URL após o sinal de dois pontos :</font></span></p>
+<table border="0" width="82%" bgcolor="#F2F2F2">
+	<tbody><tr>
+		<td><span style="letter-spacing: 0.05em"><font face="Trebuchet MS"><br>
+		<font color="#0000FF" size="4">&nbsp;routes.MapRoute ("default", 
+		"{controller = Home} / {action = Index} / </font>
+		<font size="4" color="#FF0000">{id: int?}</font><font color="#0000FF" size="4">");<br>
+&nbsp;</font></font></span></td>
+	</tr>
+</tbody></table>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">A restrição
+<font color="#0000FF">int</font> verifica se o valor do <font color="#0000FF">Id</font> 
+pode ser analisado para um valor inteiro. <i>(O segmento de id é opcional)</i> 
+Portanto, a rota corresponderá se o <font color="#0000FF">Id</font> não estiver 
+presente, mas se o Id estiver presente, ele deverá ser um valor inteiro.</font></span></p>
+<p><span style="letter-spacing: 0.05em">
+<font face="Trebuchet MS" size="5" color="#800080">Definindo restrições usando 
+via atributo Route</font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Podemos obter 
+o mesmo resultado usando o atributo <font color="#0000FF">Route</font> 
+definindo-o no método Action <font color="#0000FF">Index</font>:</font></span></p>
+<p><img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/aspnc_restrota17.jpg" width="672" height="332"></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Observe que no 
+atributo <font color="#0000FF">Route</font> definimos :&nbsp;
+<font color="#0000FF">[Route("Home/Index/{id:int}")]</font></font></span></p>
+<p><span style="letter-spacing: 0.05em">
+<font face="Trebuchet MS" size="5" color="#800080">Onde usar as restrições</font></span></p>
+<p><font face="Trebuchet MS"><span style="letter-spacing: 0.05em">As restrições 
+podem ser usadas para validação de entrada, mas essa não é a razão pela qual 
+elas existem.<br>
+<br>
+As validações de entrada não devem ser tratadas pelas restrições de rota. Em vez 
+disso, o Controlador deve validar a entrada e enviar a mensagem de erro 
+apropriada ao usuário final. Se você usar restrições de rota para validações de 
+entrada, o cliente receberá uma mensagem de erro <font color="#0000FF">404 (não 
+encontrado).<br>
+</font><br>
+As restrições de rota devem ser usadas para ajudar o mecanismo de roteamento a 
+distinguir entre duas rotas semelhantes. </span></font></p>
+<p><font face="Trebuchet MS"><span style="letter-spacing: 0.05em">Por exemplo, 
+considere a seguinte rota :</span></font></p>
+<table border="0" width="67%" bgcolor="#F2F2F2">
+	<tbody><tr>
+		<td>
+		<pre><font face="Trebuchet MS" size="3"><span style="letter-spacing: 0.05em">   app.UseMvc (routes =&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;routes.MapRoute ("<font color="#0000FF">default</font>",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"post / {id: int}",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; new {controller = "Post", action = "PostsByID"});
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;routes.MapRoute ("<font color="#0000FF">outraRota</font>",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"post / {id: alpha}",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;new {controller = "Post", action = "PostsByPostName"});
+
+&nbsp;&nbsp;&nbsp;&nbsp;});</span></font></pre>
+		</td>
+	</tr>
+</tbody></table>
+<p><font face="Trebuchet MS"><span style="letter-spacing: 0.05em">Temos duas 
+rotas semelhantes: </span></font></p>
+<ol>
+	<li><font face="Trebuchet MS" color="#0000FF">
+	<span style="letter-spacing: 0.05em">post/{id: int} </span></font></li>
+	<li><font face="Trebuchet MS" color="#0000FF">
+	<span style="letter-spacing: 0.05em">post/{id: alpha}. </span></font></li>
+</ol>
+<p><font face="Trebuchet MS"><span style="letter-spacing: 0.05em">Com as 
+restrições <font color="#0000FF">int</font>(<i>aceita somente inteiros</i>)<font color="#0000FF"> 
+e alpha (</font><i>aceita somente alfabetos</i>), podemos dizer ao mecanismo de 
+roteamento para escolher o método de ação PostsByID para números inteiros e
+<font color="#0000FF">PostByPostName</font> para valores strings.</span></font></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">O namespace
+<font color="#0000FF">Microsoft.AspNetCore.Routing.Constraints</font> define um 
+conjunto de classes que podem ser usadas para definir restrições individuais.</font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Abaixo uma 
+tabela das restrições que verificam o tipo de dados:</font></span></p>
+<table id="tablepress-27" class="tablepress tablepress-id-26" cellspacing="0" cellpadding="0" border="1" width="917">
+	<thead>
+		<tr class="row-1 odd">
+			<th class="column-1" bgcolor="#FFFFB9">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">constraint</span></font></th>
+			<th class="column-2" bgcolor="#FFFFB9">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Inline</span></font></th>
+			<th class="column-3" bgcolor="#FFFFB9">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Classe</span></font></th>
+			<th class="column-4" bgcolor="#FFFFB9">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Descrição</span></font></th>
+		</tr>
+	</thead>
+	<tbody class="row-hover">
+		<tr class="row-2 even">
+			<td class="column-1" align="center">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">int</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:int}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">IntRouteConstraint</span></font></td>
+			<td class="column-4"><span style="letter-spacing: 0.05em">
+			<font face="Trebuchet MS" size="2">Restringe um parâmetro de rota para 
+			representar apenas valores inteiros de 32 bits</font></span></td>
+		</tr>
+		<tr class="row-3 odd">
+			<td class="column-1" align="center">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">alpha</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:alpha}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">AlphaRouteConstraint</span></font></td>
+			<td class="column-4"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para conter apenas letras minúsculas ou maiúsculas de A a Z no 
+			alfabeto inglês.</span></font></td>
+		</tr>
+		<tr class="row-4 even">
+			<td class="column-1" align="center">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">bool</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:bool}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">BoolRouteConstraint</span></font></td>
+			<td class="column-4"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para representar apenas valores booleanos.</span></font></td>
+		</tr>
+		<tr class="row-5 odd">
+			<td class="column-1" align="center">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">datetime</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:datetime}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">DateTimeRouteConstraint</span></font></td>
+			<td class="column-4"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para representar apenas valores de DateTime.</span></font></td>
+		</tr>
+		<tr class="row-6 even">
+			<td class="column-1" align="center">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">decimal</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:decimal}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">DecimalRouteConstraint</span></font></td>
+			<td class="column-4"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para representar apenas valores decimais.</span></font></td>
+		</tr>
+		<tr class="row-7 odd">
+			<td class="column-1" align="center">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">double</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:double}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">DoubleRouteConstraint</span></font></td>
+			<td class="column-4"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para representar apenas valores de ponto flutuante de 64 bits</span></font></td>
+		</tr>
+		<tr class="row-8 even">
+			<td class="column-1" align="center">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">float</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:float}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">FloatRouteConstraint</span></font></td>
+			<td class="column-4"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Corresponde a um valor 
+			flutuante válido (na invariant culture)</span></font></td>
+		</tr>
+		<tr class="row-9 odd">
+			<td class="column-1" align="center">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">guid</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:guid}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">GuidRouteConstraint</span></font></td>
+			<td class="column-4"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Corresponde a um valor válido 
+			de Guid</span></font></td>
+		</tr>
+</tbody></table>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">A seguir temos 
+uma tabela de restrições para verificação de<font color="#0000FF"> 
+valor/intervalo/comprimento</font> :</font></span></p>
+<table id="tablepress-28" class="tablepress tablepress-id-27" cellspacing="0" cellpadding="0" border="1" width="909">
+	<thead>
+		<tr class="row-1 odd">
+			<th class="column-1" bgcolor="#FFFFB9">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">constraint</span></font></th>
+			<th class="column-2" bgcolor="#FFFFB9">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Inline</span></font></th>
+			<th class="column-3" bgcolor="#FFFFB9">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Classe</span></font></th>
+			<th class="column-4" bgcolor="#FFFFB9" width="390">
+			<span style="letter-spacing: 0.05em">
+			<font face="Trebuchet MS" size="2">
+			Descrição</font></span></th>
+		</tr>
+	</thead>
+	<tbody class="row-hover">
+		<tr class="row-2 even">
+			<td class="column-1">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">
+			length(length)</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:length(12)}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">LengthRouteConstraint</span></font></td>
+			<td class="column-4" width="390"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para ser uma string de um determinado comprimento ou dentro de um 
+			determinado intervalo de comprimentos.</span></font></td>
+		</tr>
+		<tr class="row-3 odd">
+			<td class="column-1">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">
+			maxlength(value)</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:maxlength(8)}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">MaxLengthRouteConstraint</span></font></td>
+			<td class="column-4" width="390"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para ser uma string com comprimento máximo.</span></font></td>
+		</tr>
+		<tr class="row-4 even">
+			<td class="column-1">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">
+			minlength(value)</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:minlength(4)}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">MinLengthRouteConstraint</span></font></td>
+			<td class="column-4" width="390"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para ser uma string com comprimento mínimo.</span></font></td>
+		</tr>
+		<tr class="row-5 odd">
+			<td class="column-1">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">
+			range(min,max)</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:range(18,120)}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">RangeRouteConstraint</span></font></td>
+			<td class="column-4" width="390"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para ser um número inteiro dentro de um determinado intervalo de 
+			valores.</span></font></td>
+		</tr>
+		<tr class="row-6 even">
+			<td class="column-1">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">min(value)</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:min(18)}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">MinRouteConstraint</span></font></td>
+			<td class="column-4" width="390"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para um longo com um valor mínimo.</span></font></td>
+		</tr>
+		<tr class="row-7 odd">
+			<td class="column-1">
+			<font face="Trebuchet MS" color="#0000FF" size="2">
+			<span style="letter-spacing: 0.05em; font-weight: 700">max(value)</span></font></td>
+			<td class="column-2" align="center">
+			<font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">{id:max(120)}</span></font></td>
+			<td class="column-3"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">MaxRouteConstraint</span></font></td>
+			<td class="column-4" width="390"><font face="Trebuchet MS" size="2">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para ser um inteiro com um valor máximo.</span></font></td>
+		</tr>
+</tbody></table>
+<p><span style="letter-spacing: 0.05em">
+<font face="Trebuchet MS" size="5" color="#800080">Restrições usando uma 
+Expressão Regular</font></span></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Usar expressão 
+regular ou regex como restrição oferece mais flexibilidade para limitar qualquer 
+entrada:</font></span></p>
+<table id="tablepress-29" class="tablepress tablepress-id-28" cellspacing="0" cellpadding="0" border="1" width="910">
+	<thead>
+		<tr class="row-1 odd">
+			<th class="column-1" bgcolor="#FFFFB9">constraint</th>
+			<th class="column-2" width="332" bgcolor="#FFFFB9">Inline</th>
+			<th class="column-3" width="176" bgcolor="#FFFFB9">Classe</th>
+			<th class="column-4" width="221" bgcolor="#FFFFB9">descrição</th>
+		</tr>
+	</thead>
+	<tbody class="row-hover">
+		<tr class="row-2 even">
+			<td class="column-1"><font face="Trebuchet MS" color="#0000FF">
+			<span style="letter-spacing: 0.05em; font-weight: 700">
+			regex(expression)</span></font></td>
+			<td class="column-2" width="332">
+			<font face="Trebuchet MS" color="#0000FF">
+			<span style="letter-spacing: 0.05em">
+			{ssn:regex(^\\d{{3}}-\\d{{2}}-\\d{{4}}$)}</span></font></td>
+			<td class="column-3" width="176"><font face="Trebuchet MS">
+			<span style="letter-spacing: 0.05em">RegexRouteConstraint</span></font></td>
+			<td class="column-4" width="221"><font face="Trebuchet MS">
+			<span style="letter-spacing: 0.05em">Restringe um parâmetro de rota 
+			para corresponder a uma expressão regular.</span></font></td>
+		</tr>
+</tbody></table>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">No exemplo a 
+seguir, usamos a expressão regular para restringir o valor do ano a 4 dígitos:</font></span></p>
+<table border="0" width="55%" bgcolor="#F2F2F2">
+	<tbody><tr>
+		<td>
+		<div class="crayon-line" id="crayon-5ce92239c2484038898628-2">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">
+			app.UseMvc(routes =&gt;</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c2484038898628-3">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">&nbsp;&nbsp; {</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c2484038898628-4">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">&nbsp;&nbsp; 
+			routes.MapRoute("default",</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c2484038898628-5">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000FF">&nbsp;&nbsp;<b>&nbsp;&nbsp;"{controller}/{action}/{year:regex(^\\d{{4}}$)}",</b></font></span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c2484038898628-6">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;new { controller = "Home", action = "Index" });</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c2484038898628-7">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">});</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c2484038898628-8">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">&nbsp;</span></font></div>
+		</td>
+	</tr>
+</tbody></table>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Além disso 
+podemos combinar múltiplas restrições usando o separdor dois pontos : conforme 
+exemplo a seguir:</font></span></p>
+<p><font face="Trebuchet MS"><span style="letter-spacing: 0.05em">&nbsp;<font size="5" color="#0000FF"> 
+"/{id:alpha:minlength(6)?}"&nbsp; </font></span></font></p>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">ou usando o 
+método <font color="#0000FF">Constraints</font> do <font color="#0000FF">
+MapRoute</font>:</font></span></p>
+<table border="0" width="57%" bgcolor="#F2F2F2">
+	<tbody><tr>
+		<td>
+		<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">&nbsp;
+		</span></font>
+		<div class="crayon-line" id="crayon-5ce92239c248b773404230-2">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">Using 
+			Microsoft.AspNetCore.Routing.<font color="#0000FF">CompositeRouteConstraint</font>;</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c248b773404230-3">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">&nbsp;</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c248b773404230-4">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">
+			constraints: new {</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c248b773404230-5">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">
+			&nbsp;&nbsp;&nbsp;&nbsp;id = new CompositeRouteConstraint(</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c248b773404230-6">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<font color="#0000FF">&nbsp;new IRouteConstraint[] {</font></span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c248b773404230-7">
+			<font face="Trebuchet MS" color="#0000FF">
+			<span style="letter-spacing: 0.05em">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;new 
+			AlphaRouteConstraint(),</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c248b773404230-8">
+			<font face="Trebuchet MS" color="#0000FF">
+			<span style="letter-spacing: 0.05em">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;new 
+			MinLengthRouteConstraint(6)</span></font></div>
+		<div class="crayon-line" id="crayon-5ce92239c248b773404230-9">
+			<font face="Trebuchet MS"><span style="letter-spacing: 0.05em">})</span></font></div>
+		<table class="crayon-table" style="margin-left: -20px;">
+			<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+				<div class="crayon-nums-content" style="font-size: 14px !important; line-height: 18px !important;">
+					<div class="crayon-num" data-line="crayon-5ce92239c2489940965517-3">
+						<font face="Trebuchet MS">
+						<span style="letter-spacing: 0.05em">3</span></font></div>
+				</div>
+				</td>
+				<td class="crayon-code">
+				<div class="crayon-pre" style="font-size: 14px !important; line-height: 18px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;">
+					<div class="crayon-line" id="crayon-5ce92239c2489940965517-1">
+						<font face="Trebuchet MS">
+						<span style="letter-spacing: 0.05em">&nbsp;</span></font></div>
+					<div class="crayon-line" id="crayon-5ce92239c2489940965517-2">
+&nbsp;</div>
+				</div>
+				</td>
+			</tr>
+		</tbody></table>
+		</td>
+	</tr>
+</tbody></table>
+<p><span style="letter-spacing: 0.05em"><font face="Trebuchet MS">Dessa forma as 
+restrições de roteamento são uma opção útil que permitir mapear rotas 
+semelhantes e nos ajuda a restringir os valores indesejados nos métodos Action 
+do controlador.</font></span></p>
+<p>
+							</p><article>
+								<span style="letter-spacing: 0.05em; font-style: italic">
+								<font face="Trebuchet MS">"Louvai ao SENHOR, 
+porque ele é bom; porque a sua benignidade dura para sempre.<br>
+Louvai ao Deus dos deuses; porque a sua benignidade dura para sempre.<br>
+Louvai ao Senhor dos senhores; porque a sua benignidade dura para sempre."<br>
+<b><a href="https://www.bibliaonline.com.br/acf/sl/136">Salmos 136:1-3</a></b></font></span></article><p></p>
+
+<table border="1" cellpadding="0" style="border-collapse: collapse" bordercolor="#111111" width="77%" bgcolor="#FFFFE1">
+  <tbody><tr>
+    <td width="95%" bordercolor="#FFFFE1" bgcolor="#F2F2F2">
+    <span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2"><a href="http://www.macoratti.net/destaque.htm">
+    Veja os </a>
+<a href="http://www.macoratti.net/destaques.htm">
+    Destaques e novidades do SUPER DVD Visual Basic (sempre atualizado) : clique 
+	e confira !</a> </font> </span>
+<p align="left">
+<span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2">Quer 
+migrar para o VB .NET ?</font></span></p>
+    <ul>
+      <li>
+<p align="left">
+<span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2">Veja mais sistemas 
+completos para a plataforma .NET no <a href="http://www.macoratti.net/superdvd.htm">
+Super DVD .NET</a> 
+, confira...</font></span></p>
+      </li>
+      <li>
+
+<p align="left">
+<a href="http://www.macoratti.net/curso_vbnet_basico.htm">
+<span style="letter-spacing: 0.05em; ">
+<font face="Trebuchet MS" size="2">Curso Básico VB .NET - Vídeo Aulas</font></span></a></p>
+
+      </li>
+    </ul>
+<p align="left">
+<span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2">Quer 
+aprender C# ??</font></span></p>
+    <ul>
+      <li>
+<p align="left">
+<span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2">Chegou o 
+<a href="http://www.macoratti.net/superdvdc.htm">
+Super DVD C#</a> com exclusivo material de suporte e vídeo aulas com curso 
+básico sobre C#.</font></span></p>
+
+      </li>
+      <li>
+<p align="left">
+<a class="dt" title="ir para Curso C# Basico " href="http://www.macoratti.net/curso_cshp_basico.htm">
+<span style="letter-spacing: 0.05em; ">
+<font face="Trebuchet MS" size="2">Curso C# Basico - Video Aulas</font></span></a></p>
+
+      </li>
+    </ul>
+
+<p align="left">
+<span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2">Quer 
+aprender os conceitos da Programação Orientada a objetos ?</font></span></p>
+    <ul>
+      <li>
+<p align="left"><span style="letter-spacing: 0.05em">
+<font face="Trebuchet MS" size="2">
+<a href="http://www.macoratti.net/19/08/15/10/curso_fundamentos_oop.htm">Curso Fundamentos da Programação 
+Orientada a Objetos com VB .NET</a> 
+<img border="0" src="./ASP.NET Core  -  Restrições de Rotas_files/new.gif" width="31" height="12"></font></span></p>
+      </li>
+    </ul>
+
+<p align="left">
+<span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2">Quer 
+aprender o gerar relatórios com o ReportViewer no VS 2013 ?</font></span></p>
+    <ul>
+      <li>
+<p align="left">
+<a href="http://www.macoratti.net/curso_reportviewer.htm">
+<span style="letter-spacing: 0.05em; ">
+<font face="Trebuchet MS" size="2">&nbsp;Curso - Gerando 
+Relatórios com o ReportViewer no VS 2013 - Vídeo Aulas</font></span></a></p>
+      </li>
+    </ul>
+
+<p align="left">
+<span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2">Quer 
+aprender a criar aplicações Web Dinâmicas usando a ASP .NET MVC 5 ?</font></span></p>
+    <ul>
+      <li>
+<p align="left">
+<a href="http://www.macoratti.net/19/08/curso_aspnet_mvc5_basico.htm">
+<span style="letter-spacing: 0.05em; ">
+<font face="Trebuchet MS" size="2">&nbsp;Curso ASP .NET MVC 5 - Vídeo Aulas</font></span></a></p>
+      </li>
+    </ul>
+
+    </td>
+  </tr>
+</tbody></table>
+
+<p><span style="letter-spacing: 0.05em; font-weight:700">
+<font face="Trebuchet MS" size="2">Referências:</font></span></p><ul>
+    <li style="BORDER-RIGHT: 0px; PADDING-RIGHT: 0px; BORDER-TOP: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; BORDER-LEFT: 0px; LINE-HEIGHT: 1.2; PADDING-TOP: 0px; BORDER-BOTTOM: 0px">
+    <p style="margin-top: 1px; margin-bottom: 1px; word-spacing:1px">
+    <span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2"><a href="http://www.macoratti.net/pageview.aspx?catid=1">Seção VB .NET do Site Macoratti.net</a>
+	</font></span></p></li>
+    <li style="BORDER-RIGHT: 0px; PADDING-RIGHT: 0px; BORDER-TOP: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; BORDER-LEFT: 0px; LINE-HEIGHT: 1.2; PADDING-TOP: 0px; BORDER-BOTTOM: 0px">
+    <p style="margin-top: 1px; margin-bottom: 1px; word-spacing:1px">
+    <span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2"><a href="http://www.macoratti.net/superdvd.htm">Super DVD .NET - A sua
+        porta de entrada na plataforma .NET</a> </font></span></p></li>
+    <li>
+    <p style="margin-top: 1px; margin-bottom: 1px; word-spacing:1px"><span style="letter-spacing: 0.05em; ">
+	<font face="Trebuchet MS" size="2"><a href="http://www.macoratti.net/Vendas/Produtos.aspx?ID=22">Super DVD Vídeo Aulas - Vídeo
+        Aula sobre VB .NET, ASP .NET e C#</a> </font></span></p></li>
+    <li>
+    <p style="margin-top: 1px; margin-bottom: 1px; word-spacing:1px"><a href="http://www.macoratti.net/superdvdc.htm">
+    <span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2">Super DVD C# - Recursos de 
+    aprendizagens e vídeo aulas para C#</font></span></a></p></li><li>
+    <p style="margin-top: 1px; margin-bottom: 1px; word-spacing:1px">
+    <font face="Trebuchet MS" size="2">
+    <a href="http://www.macoratti.net/pageview.aspx?catid=18" style="letter-spacing:0.05em; ">Seção C# do site Macoratti.net</a></font></p></li><li>
+    <p style="margin-top: 1px; margin-bottom: 1px; word-spacing:1px">
+    <a href="http://www.macoratti.net/pageview.aspx?catid=3">
+    <span style="letter-spacing: 0.05em; "><font face="Trebuchet MS" size="2">Seção ASP .NET do 
+    site Macoratti .net</font></span></a></p></li>
+	<li>
+    <a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;1&#39;,&#39;AOvVaw32pVngDuPuKzojdgT0gc-T&#39;,&#39;&#39;,&#39;2ahUKEwiyzr-Yg5PgAhU7JrkGHe3xBbEQFjAAegQICRAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/Cursos/aspncore2_mcurso1.htm">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;1&#39;,&#39;AOvVaw32pVngDuPuKzojdgT0gc-T&#39;,&#39;&#39;,&#39;2ahUKEwiyzr-Yg5PgAhU7JrkGHe3xBbEQFjAAegQICRAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/Cursos/aspncore2_mcurso1.htm">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">ASP .NET Core 2 - 
+	MiniCurso Básico - Macoratti</span></font></a></p></li>
+	<li>
+    <a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;5&#39;,&#39;AOvVaw3rvQL5HEyODZvitKwJGZqc&#39;,&#39;&#39;,&#39;2ahUKEwiJu8CVhI_iAhXBGrkGHamaAxoQFjAEegQIBBAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/18/08/aspcoremvc_adn1.htm">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;5&#39;,&#39;AOvVaw3rvQL5HEyODZvitKwJGZqc&#39;,&#39;&#39;,&#39;2ahUKEwiJu8CVhI_iAhXBGrkGHamaAxoQFjAEegQIBBAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/18/08/aspcoremvc_adn1.htm">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">ASP .NET Core 
+	MVC - CRUD básico com ADO .NET - Macoratti</span></font></a></p></li>
+	<li>
+	<a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;7&#39;,&#39;AOvVaw0G55E5Ol0KOYeoNTI6vUJ8&#39;,&#39;&#39;,&#39;2ahUKEwiJu8CVhI_iAhXBGrkGHamaAxoQFjAGegQICRAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/18/03/aspcore_cookado1.htm">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;7&#39;,&#39;AOvVaw0G55E5Ol0KOYeoNTI6vUJ8&#39;,&#39;&#39;,&#39;2ahUKEwiJu8CVhI_iAhXBGrkGHamaAxoQFjAGegQICRAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/18/03/aspcore_cookado1.htm">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">ASP .NET Core 
+	- Implementando a segurança com ... - Macoratti</span></font></a></p></li>
+	<li>
+	<a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;16&#39;,&#39;AOvVaw2leuB2H6S51dsN3EFsfkg7&#39;,&#39;&#39;,&#39;2ahUKEwifmJeghI_iAhUfGbkGHTZpD1cQFjAPegQIABAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/17/04/aspcore_mvcef3.htm">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;16&#39;,&#39;AOvVaw2leuB2H6S51dsN3EFsfkg7&#39;,&#39;&#39;,&#39;2ahUKEwifmJeghI_iAhUfGbkGHTZpD1cQFjAPegQIABAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/17/04/aspcore_mvcef3.htm">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">ASP .NET Core 
+	- Iniciando com ASP .NET Core MVC e ... - Macoratti</span></font></a></p></li>
+	<li>
+	<a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;17&#39;,&#39;AOvVaw1kNHK1E5QvEY9tfLONtWbK&#39;,&#39;&#39;,&#39;2ahUKEwifmJeghI_iAhUfGbkGHTZpD1cQFjAQegQIARAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/19/01/mvc_linux2.htm">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;17&#39;,&#39;AOvVaw1kNHK1E5QvEY9tfLONtWbK&#39;,&#39;&#39;,&#39;2ahUKEwifmJeghI_iAhUfGbkGHTZpD1cQFjAQegQIARAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/19/01/mvc_linux2.htm">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">ASP .NET Core 
+	MVC - Criando um site com MySql e EF ... - Macoratti</span></font></a></p></li>
+	<li>
+	<a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;19&#39;,&#39;AOvVaw3iSNq2GLXzrBeTGHO-GKN_&#39;,&#39;&#39;,&#39;2ahUKEwifmJeghI_iAhUfGbkGHTZpD1cQFjASegQIBBAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/18/08/aspn_gfcg1.htm">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;19&#39;,&#39;AOvVaw3iSNq2GLXzrBeTGHO-GKN_&#39;,&#39;&#39;,&#39;2ahUKEwifmJeghI_iAhUfGbkGHTZpD1cQFjASegQIBBAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/18/08/aspn_gfcg1.htm">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">ASP .NET Core 
+	- Gerenciador de Despesas Pessoais com ... - Macoratti</span></font></a></p></li>
+	<li>
+	<a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;11&#39;,&#39;AOvVaw3MQ_4-4ODXqMr3TDQaNP94&#39;,&#39;&#39;,&#39;2ahUKEwjCsMushI_iAhWOF7kGHdZaD3g4ChC3AjAAegQICRAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="https://www.youtube.com/watch?v=IsWqNs2jrwE">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;11&#39;,&#39;AOvVaw3MQ_4-4ODXqMr3TDQaNP94&#39;,&#39;&#39;,&#39;2ahUKEwjCsMushI_iAhWOF7kGHdZaD3g4ChC3AjAAegQICRAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="https://www.youtube.com/watch?v=IsWqNs2jrwE">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">Minicurso ASP 
+	.NET Core 2.0 - Apresentando MVC - YouTube</span></font></a></p></li>
+	<li>
+	<a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;11&#39;,&#39;AOvVaw3MQ_4-4ODXqMr3TDQaNP94&#39;,&#39;&#39;,&#39;2ahUKEwjCsMushI_iAhWOF7kGHdZaD3g4ChC3AjAAegQICRAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="https://www.youtube.com/watch?v=IsWqNs2jrwE">
+	<font size="2"></font>
+	</a><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;2&#39;,&#39;AOvVaw2rggc2uver5G2KAOshmAD-&#39;,&#39;&#39;,&#39;2ahUKEwj248K7hI_iAhWzCtQKHacHC1oQFjABegQIAhAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/17/04/aspcore_ambi1.htm">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;2&#39;,&#39;AOvVaw2rggc2uver5G2KAOshmAD-&#39;,&#39;&#39;,&#39;2ahUKEwj248K7hI_iAhWzCtQKHacHC1oQFjABegQIAhAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/17/04/aspcore_ambi1.htm">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">ASP .NET Core 
+	- Configurando o ambiente de ... - Macoratti</span></font></a></p></li>
+	<li>
+	<a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;4&#39;,&#39;AOvVaw0MQsBo-4sg-NgDBTQjPY5b&#39;,&#39;&#39;,&#39;2ahUKEwj248K7hI_iAhWzCtQKHacHC1oQFjADegQIBBAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/17/05/vda080517.htm">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;4&#39;,&#39;AOvVaw0MQsBo-4sg-NgDBTQjPY5b&#39;,&#39;&#39;,&#39;2ahUKEwj248K7hI_iAhWzCtQKHacHC1oQFjADegQIBBAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/17/05/vda080517.htm">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">ASP .NET Core 
+	e EF Core - Configurando o ambiente - Macoratti</span></font></a></p></li>
+	<li>
+	<a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;5&#39;,&#39;AOvVaw03dTgfcf1V5jGc2vLRaw6w&#39;,&#39;&#39;,&#39;2ahUKEwj248K7hI_iAhWzCtQKHacHC1oQFjAEegQIBRAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/19/04/aspc_autom1.htm">
+	</a><p style="word-spacing: 1px; margin-top: 1px; margin-bottom: 1px"><a onmousedown="return rwt(this,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;5&#39;,&#39;AOvVaw03dTgfcf1V5jGc2vLRaw6w&#39;,&#39;&#39;,&#39;2ahUKEwj248K7hI_iAhWzCtQKHacHC1oQFjAEegQIBRAB&#39;,&#39;&#39;,&#39;&#39;,event)" href="http://www.macoratti.net/19/04/aspc_autom1.htm">
+	<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">ASP .NET Core 
+	- Como configurar o AutoMapper - Macoratti</span></font></a></p></li>
+	<font size="2">
+	
+	</font>
+</ul>
+<ul>
+    <font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">
+	
+	</span></font>
+</ul><hr size="0">
+
+<p align="center"><a href="http://www.macoratti.net/">
+<font face="Trebuchet MS" size="2"><span style="letter-spacing: 0.05em">José Carlos Macoratti</span></font></a></p>
+</div>
+</div>
+
+</body><editor-card style="animation: initial; transition: initial; color: initial; font: initial; font-feature-settings: initial; font-kerning: initial; font-optical-sizing: initial; font-variation-settings: initial; text-orientation: initial; text-rendering: initial; -webkit-font-smoothing: initial; -webkit-locale: initial; -webkit-text-orientation: initial; -webkit-writing-mode: initial; writing-mode: initial; zoom: initial; place-content: initial; place-items: initial; place-self: initial; alignment-baseline: initial; backdrop-filter: initial; backface-visibility: initial; background: initial; background-blend-mode: initial; baseline-shift: initial; block-size: initial; border-block-end: initial; border-block-start: initial; border: initial; border-radius: initial; border-collapse: initial; border-inline-end: initial; border-inline-start: initial; bottom: initial; box-shadow: initial; box-sizing: initial; break-after: initial; break-before: initial; break-inside: initial; buffered-rendering: initial; caption-side: initial; caret-color: initial; clear: initial; clip: initial; clip-path: initial; clip-rule: initial; color-interpolation: initial; color-interpolation-filters: initial; color-rendering: initial; columns: initial; column-fill: initial; gap: initial; column-rule: initial; column-span: initial; contain: initial; content: initial; counter-increment: initial; counter-reset: initial; cursor: initial; cx: initial; cy: initial; d: initial; display: initial; dominant-baseline: initial; empty-cells: initial; fill: initial; fill-opacity: initial; fill-rule: initial; filter: initial; flex: initial; flex-flow: initial; float: initial; flood-color: initial; flood-opacity: initial; grid: initial; grid-area: initial; height: initial; hyphens: initial; image-rendering: initial; inline-size: initial; isolation: initial; left: 0px; letter-spacing: initial; lighting-color: initial; line-break: initial; list-style: initial; margin-block-end: initial; margin-block-start: initial; margin: initial; margin-inline-end: initial; margin-inline-start: initial; marker: initial; mask: initial; mask-type: initial; max-block-size: initial; max-height: initial; max-inline-size: initial; max-width: initial; min-block-size: initial; min-height: initial; min-inline-size: initial; min-width: initial; mix-blend-mode: initial; object-fit: initial; object-position: initial; offset: initial; opacity: initial; order: initial; orphans: initial; outline: initial; outline-offset: initial; overflow-anchor: initial; overflow-wrap: initial; overflow: initial; overscroll-behavior-block: initial; overscroll-behavior-inline: initial; overscroll-behavior: initial; padding-block-end: initial; padding-block-start: initial; padding: initial; padding-inline-end: initial; padding-inline-start: initial; page: initial; paint-order: initial; perspective: initial; perspective-origin: initial; pointer-events: initial; position: absolute; quotes: initial; r: initial; resize: initial; right: initial; rx: initial; ry: initial; scroll-behavior: initial; scroll-margin-block: initial; scroll-margin: initial; scroll-margin-inline: initial; scroll-padding-block: initial; scroll-padding: initial; scroll-padding-inline: initial; scroll-snap-align: initial; scroll-snap-stop: initial; scroll-snap-type: initial; shape-image-threshold: initial; shape-margin: initial; shape-outside: initial; shape-rendering: initial; size: initial; speak: initial; stop-color: initial; stop-opacity: initial; stroke: initial; stroke-dasharray: initial; stroke-dashoffset: initial; stroke-linecap: initial; stroke-linejoin: initial; stroke-miterlimit: initial; stroke-opacity: initial; stroke-width: initial; tab-size: initial; table-layout: initial; text-align: initial; text-align-last: initial; text-anchor: initial; text-combine-upright: initial; text-decoration: initial; text-decoration-skip-ink: initial; text-indent: initial; text-overflow: initial; text-shadow: initial; text-size-adjust: initial; text-transform: initial; text-underline-position: initial; top: 0px; touch-action: initial; transform: initial; transform-box: initial; transform-origin: initial; transform-style: initial; user-select: initial; vector-effect: initial; vertical-align: initial; visibility: initial; -webkit-app-region: initial; -webkit-appearance: initial; border-spacing: initial; -webkit-border-image: initial; -webkit-box-align: initial; -webkit-box-decoration-break: initial; -webkit-box-direction: initial; -webkit-box-flex: initial; -webkit-box-ordinal-group: initial; -webkit-box-orient: initial; -webkit-box-pack: initial; -webkit-box-reflect: initial; -webkit-font-size-delta: initial; -webkit-highlight: initial; -webkit-hyphenate-character: initial; -webkit-line-break: initial; -webkit-line-clamp: initial; -webkit-margin-collapse: initial; -webkit-margin-bottom-collapse: initial; -webkit-margin-top-collapse: initial; -webkit-mask-box-image: initial; -webkit-mask: initial; -webkit-mask-composite: initial; -webkit-perspective-origin-x: initial; -webkit-perspective-origin-y: initial; -webkit-print-color-adjust: initial; -webkit-rtl-ordering: initial; -webkit-ruby-position: initial; -webkit-tap-highlight-color: initial; -webkit-text-combine: initial; -webkit-text-decorations-in-effect: initial; -webkit-text-emphasis: initial; -webkit-text-emphasis-position: initial; -webkit-text-fill-color: initial; -webkit-text-security: initial; -webkit-text-stroke: initial; -webkit-transform-origin-x: initial; -webkit-transform-origin-y: initial; -webkit-transform-origin-z: initial; -webkit-user-drag: initial; -webkit-user-modify: initial; white-space: initial; widows: initial; width: initial; will-change: initial; word-break: initial; word-spacing: initial; x: initial; y: initial; z-index: auto;"></editor-card></html>

@@ -1,0 +1,88 @@
+Escopo e o objetivo da sua api
+
+Criar uma webApi para um catalogo de produtos/categorias que pode atender uma rede de lojas ou supermercados
+
+criar um serviço RestFul que permita que aplicativos clientes gerenciem o catalogo de produtos e categorias 
+expor endipoints para criar, ler, editar e excluir produtos e tambem para consultar produtos e um produto especifico
+expor endipoints para criar, ler, editar e excluir categorias e tambem consultar categorias, uma categorias especifica e os produtos de uma categorias 
+
+para categorias, precisamos armazenar o nome e o caminho da imagem 
+para produtos, prescisamos amrmazenar nome, descrição, valor unitario, caminho da imagem, estoque, data do castro e categoria
+
+definição de recursos, dos endipoints e do mapeamento 
+um endpoint é a URL onde seu serviço pode ser acessado por uma aplicação cliente 
+
+implementar a  segurança 
+permitir o acesso as apis somente a usuarios autenticados
+definir uma politica de autorização de acesso aos usuarios 
+
+criar um serviço RESTful que permita gerenciar os usuarios 
+
+expor endipoints para criar, ler, editar e excluir usuarios e tambem para consultar usuarios e um usuario especifico 
+
+para os usuarios precisamos armazenar: nome, email, senha 
+
+abordagem code-first parte das entidades para criar as tabelas e o banco de dados 
+padrao repositorio(desacoplar o acesso aos dados da aplicação)
+
+nomeclatura 
+nome do projeto catalogoapi
+nome dos controllers no plural
+
+uma instancia de um recurso - no plural ex produtos 
+
+arquitetura em camadas 
+camada de apresentação
+camada de negocios 
+camadas de acesso a dados 
+
+layers - separação logica efere -se a organização do codigo e dos dados 
+
+tiers separação fisica geralmente se rtefere a distribuição do codigo e dos dados 
+
+n-layers não implica em n-tier e vice-versa 
+
+
+
+criando uma webApi no vs 2019
+
+1- criar o projeto no VS 2019 community - ApiCatalogo
+2- criar o modelo de entidades : produtos e catalogo 
+3- configurar o projeto para usar EF core -  referencias ao ef core
+4- definir o banco de dados usado - MySql
+5- definir a classe do contexto - AppDbContext(DbContext)
+6- definir o mapeamento das entidades para as tabelas - DbSet<T>
+7- Registrar o contexto como um serviço - Startup.cs
+8- Definir o provedor do banco de dados usados - Pomelo
+9- Definir a string de conexão com o banco de dados - appsettings.json
+10- Aplicar o migrations e criar o banco de dados e as tabelas 
+11- Criar o controlador - ProdutosController 
+12 - Definir os metodos Actions para realizar consultas e as oprações crud 
+
+
+O EF Core Migrations é um conjuto de comandos que você executa no Console do Nuget ou usando a interface de linha de comando (NET CLI)
+para gerar ou manter o esquema do banco de dados sincronizado com as classes de dominio 
+
+Comando console Nuget 
+- Add-migration <nome>
+- Remove-migration
+- Update-database
+- Scaffold-dbcontext
+
+
+Comando NET CLI
+- dotnet ef migrations add <nome>
+- dotnet ef migrations remove 
+- dotnet ef database update 
+- dotnet ef dbcontext scaffold
+
+Uso
+- Cria uma migração gerando o script 
+- Remove a última migração criada 
+- Atualiza o esquema do banco de das com base na última migração
+- Gera o modelo de entidade e contexto paitir do banco de dados 
+
+
+
+
+

@@ -1,0 +1,80 @@
+Logging
+
+Logging de dados ajuda a identificar dados
+
+Log de dados e Logging
+
+Log de dados é um arquivo gerado por um software para descrever eventos sobre o seu funcionamento, utilização por usuários ou interação com outros sistemas sendo incrementado com o tempo com informações que permitem detectar problemas de funcionamento, seguraça e acessibilidade.
+
+Para obter um log de dados realizamos o registro em log ou logging
+
+O registro em log(logging) é um recurso essencial em aplicativos para detectar ou investigar problemas e anlisar seu comportamento em geral.
+
+Logging na ASP .NET Core
+
+A ASP.NET Core dá suporte a uma API de Logging ou registro de atividades em log que funciona com uma variedade de provedores de logs.
+
+Os provedores internos permitem que você envie logs para um ou mais destinos e você também pode ser conectar a uma estrutura de registros de log de terceiros como Log4Net, NLog e Elmah.
+
+Um provedor de log exibe ou armazena logs 
+
+Os níveis de log permitem definir os níveis de severidade do registo das informações 
+
+imagem - ASP.NET Core with Logging 
+
+Logging na ASP.NET Core - Níveis de log 
+
+Critical - Logs que descrevem uma falha de sistema que requer atenção imadiata 
+Debug -  Logs que são usados para investigação interativa durante o desenvolvimento 
+Error - Logs que destacam quando o fluxo atual de execução é interrompido devido a uma falha 
+Information - Registros que rastreiam o fluxo geral do aplicativo 
+None - Especifica que uma categoria de log não deve gravar nenhuma mensagem 
+Trace - Logs que contêm as mensagens mais detalhadas. Essas mensagens podem coter dados confidenciais do aplicativo. Essas mensagens estão desativadas por padrão e nunca devem ser ativadas em um ambiente de produção.
+Warning - Logs que destacam um evento anormal ou inesperado no fluxo do aplicativo, mas não fazem com que a execução do aplicativo pare.
+
+Logging na ASP.NET Core
+
+Interfaces de Microsoft.Extensions.Logging
+
+-ILoggingFactory - É uma factory interface para criar uma intância apropriada do tipo ILogger e também para adicionar uma instância ILoggerProvider
+
+-ILoggingProvider - Gerencia e cria o registrador apropriado especificado pela categoria de registro
+
+-Ilogger - Inclui métodos para logging de registros subjacentes 
+
+No template de projeto padrão o nameespace Microsoft.Extensions.Logging já esta incluído, bem como os provedores de log para Console, Debug e EventSource 
+
+Logging na ASP.NET Core - Configuração
+
+A configuração do provedor de log pode ser fornecida por um ou mais provedores de configuração 
+
+-Formatos de arquivos(INI, JSON E XML)
+-Argumentos da linha de comando
+-Variáveis de ambiente 
+-Objetos .NET na memória 
+-O armazenamento não criptografado do Secret Manager
+-Um armazenamento de usuários criptografados, como o Cofre de chaves do Azure
+-Provedores personalizados (instalados ou criados)
+
+Configuração de logging no arquivo appsettings.Development.json
+
+A propriedade Logging pode ter as propriedades LogLevel e Console(provider)
+
+A propriedade LogLevel em Logging especifica o nível mínimo para registrar categorias selecionadas.
+
+No exemplo, as categorias System e Microsoft registram o log a nível de Information e todas as outras registram no nível de Debug.
+
+Logging na ASP.NET Core - Criando um Log
+
+Podemos usar uma instância da interface ILogger via Injeção de dependência para criar logs usando o método Log e informando o nível de log e um texto string 
+
+_logger.Log(LogLevel.Information, "texto");
+
+ou usando um método especifico para definir o nível de log:
+
+_logger.LogInformation("texto")
+
+ 
+
+
+

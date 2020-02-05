@@ -1,0 +1,32 @@
+Autenticação e Autorização 
+
+A autenticação é a verificação da identidade do usuário pela comparação das credenciais apresentadas com outras pré-definidas 
+
+A autorização verifica quais as permissões que o usuário possui e oq ele pode fazer 
+
+Implementação 
+
+-Identity
+-Provedor Externos(Google, Facebook, etc.)
+
+_Auteticação no servidor com:
+
+1. Identity Server 
+2. Openld
+3. Azure Active Directory, etc.
+
+_Autenticação baseada em Tokens - JWT - Json Web Tokens
+
+Esquema de Autenticação
+
+1 - Anônimo - Uma requisição anônima não contém informações de autenticação 
+
+2 - Basic - A autenticação básica envia uma cadeia de caracteres codificada em Base64 que contém um nome de usuário e senha para o cliente 
+
+3 - Tokens(Bearer) - É um esquema da autenticação HTTP que envolve tokes de segurança chamados tokes de portador.(bearer token)
+
+Autenticação baseada em Tokens ou Bearer Autentication 
+
+O nome 'Bearer Autentication' ou 'autenticação do portador' poe ser entendido como "dar acesso ao portador do token"
+
+o bearer token é uma string cifrada, geralmente gerada pelo servidor em resposta a uma requisição de login.

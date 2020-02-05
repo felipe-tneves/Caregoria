@@ -1,0 +1,16 @@
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\bin\Debug\netcoreapp2.2\APICatalogo.deps.json
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\bin\Debug\netcoreapp2.2\APICatalogo.runtimeconfig.json
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\bin\Debug\netcoreapp2.2\APICatalogo.runtimeconfig.dev.json
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\bin\Debug\netcoreapp2.2\APICatalogo.dll
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.csprojAssemblyReference.cache
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.csproj.CoreCompileInputs.cache
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.RazorAssemblyInfo.cache
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.RazorAssemblyInfo.cs
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.AssemblyInfoInputs.cache
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.AssemblyInfo.cs
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.RazorTargetAssemblyInfo.cache
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\bin\Debug\netcoreapp2.2\APICatalogo.pdb
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.dll
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.pdb
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\Nova pasta\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.dll
+C:\Users\lissa\OneDrive\Área de Trabalho\Aulas Macoratti\Nova pasta\APICatalogo\APICatalogo\obj\Debug\netcoreapp2.2\APICatalogo.pdb

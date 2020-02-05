@@ -1,0 +1,19 @@
+Tratamento de erros global 
+
+Tratamento de erros global com middleware
+
+Podemos usar o middleware UseExceptionHandler para realizar o tratamento de exceções 
+
+Ele Pode ser usado para manipular exceções globalmente e obeter todos os detalhes do ojeto Exception (rastreamento de pilha, exceção interna, mensagem etc.)
+
+como?
+
+Tratamento de erros global com Middleware : UseExceptionHandler 
+
+1. Criar uma classe de domínio para representar os detalhes dos erros: ErrorDetails
+2. Criar uma classe estática com um método estático que recebe como parâmetro IApplicationBuilder
+3. Neste método vamos usar o middleware UseExceptionHandler onde vamos configurar o tratamento dos erros
+4. Habilitar o usoa so método estático para tratar erros globalmente no método Configure() da classe Startup 
+
+classe estatica não pode ser estanciada e nem herdada so pode ter menbros estaticos 
+

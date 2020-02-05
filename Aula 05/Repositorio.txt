@@ -1,0 +1,16 @@
+Repositório
+
+O que é o padrão repositório?
+
+Definição de Martin Fowler:
+
+"O padrão Repository faz a mediação entre o domínio e as camadas de mapeamento de dados, agindo como uma coleção de objetos de domínio em memória..."
+
+Bnefíciod fo padrão Repository 
+
+1 - Minimiza a lógica de consultas na sua aplicação evitando consultas esparramadas pelo seu código (encapsula a lógica das consultas no repositório)
+
+2 - Desacopla a sua aplicação dos frameworks de persistência como o EF Core(você pode substituir o framework usado)
+
+3 - Facilita a realização de testes unitários em sua aplicação (repositorio Fake)
+

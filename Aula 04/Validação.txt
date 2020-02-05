@@ -1,0 +1,34 @@
+Validação personalizada - aula macoratti
+
+Validação do modelo
+
+-validação por atributos: Data Annotations
+-Model State: Representa erros do Model Binding e da validação do modelo
+-validação do modelo: ocorre após o Modelo Binding e relata erros nos quais os dados nao estao em conformidade com as 
+regras de negocio
+-o atributo [ApiController] faz verifica automaticamente se o ModelState é valido e responde com um HTTP 400 com detalhes 
+dos problemas 
+-podemos repetir a validação manualmente usando o metodo TryValidateModel(model)
+-Realizamos a validação usando atributos pre-definidos 
+
+1-Criar atributos customizados
+
+-o seu foco é validar uma propriedade 
+-pode ser reutilizada em diversos modelos e propriedades 
+
+2-implementar IValidatableObject no seu modelo 
+
+-pode acessar todas as propriedades do modelo e realizar uma validação mais complexa 
+-nao pode ser reutilizada em outros modelos 
+
+1-criar atributos customizados 
+
+criar uma classe que herda de validationattribute e sobresescrever o metodo isvalid 
+o metodo isvalid aceita dois parametros 
+
+I- um objeto value, que e a entrada a ser validada 
+II- um objeto validationcontext, que fornece informaçoes adicionais, como a instancia de modelo criada por model binding
+
+o motodo isvalid retorna a classe validationResult, atraves de seu campo estatico success ou inicializando uma nova instancia (no caso de erro)
+
+ 

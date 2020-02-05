@@ -1,0 +1,76 @@
+Filtros : Conceito
+
+Os filtros são atributos anexados ás classes ou metodos dos controladores que injetam lógica extra ao processamento da requisição e permitem a implemetação de funcionalidades relacionadas a autorização, exception, log e cache de forma simples e elegante.
+
+Eles permite executar um código personalizado antes ou depois de executar um método Action.
+
+Permite também realizar tarefas repetitivas comuns a métodos Actions e são chamados em certo estágios do pipeline 
+
+Os filtros são executados dentro do pipeline de invocação das Actions do fluxo de requisição HTTP, ás vezes chamdo de pipeline de filtros 
+
+O pipeline de filtros é execultado após o framework selecionar a Action a ser execultada 
+
+Filtors : Tipos 
+
+Authorization : Determina se o usuário esta autorizado no request atual. São execultados primeiro.
+
+Resource : Podem execultar código antes e depois do resto do filtro ser executados. Tratam do request após a autorização e executam antes do model binding ocorrer.
+
+Action : Executam o código imediatamente antes e depois do método Action do controlador ser chamado 
+
+Exception : São usados para manipular exceções ocorridas antes de qualquer coisa ser escrita no corpo da resposta.
+
+Result : Executam o código antes ou depois da execução dos resultados das Actions individuais do controlador 
+
+Filtros : Implementação S´ncrona 
+
+Os filtros síncronos que executam código antes e depois do estágio do pipeline definem os métodos OnStageExecuting e OnStageExecuted.
+
+public class CustomActionFilter : IActionFilter 
+{
+
+	public void OnActionExecuting(ActionExecutingContext context)
+	{
+		//Código: antes que a action executa
+
+	}
+	
+	public void OnActionExecuted(ActionExecutedContext context)
+	{
+		//Código: depois que a action executa
+	}
+}
+
+Filtrs : Implementação Assíncrona 
+
+Os filtros assíncros herdam de IAsyncActionFilter e são definidos com um único método: OnStageExecutionAsync que usa um FilterTypeExecutingContext e o delegate FilterTypeDelegate para executar o estágio do pipeline do filtro
+Um delegate é um elemento da linguagem C# que permite que você faça referência a um método. Então um delegate em C#, é semelhante a um ponteiro de função (a vantagem é que é um ponteiro seguro). Usando um delegate você pode encapsular a referência a um método dentro de um objeto de delegação.
+
+public class CustomActionFilter : IAsyncActionFilter 
+{
+	public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+	{
+		//Código: antes que a action executa 
+		await next();
+		//Códigdo: depois que a action executa
+	}
+}
+
+Filtros : Escopo e ordem de execução 
+
+Um filtro pode ser adicionado ao pipeline em um dos três escopos: 
+
+1- Pelo método Action;
+2- Pela classe do controlador;
+3- Globalmente( é aplicado a todos os controladors e actions).
+
+A ordem padrão de execução é a seguinde:
+
+1- O filtro global é aplicado primeiro;
+2- Depois o filtro de nível de classe é aplicado;
+3- Finalmente, o filtro de nível de método é aplicado;
+
+
+
+
+

@@ -1,0 +1,53 @@
+Json Web Tokens 
+
+Protegendo a WebApi
+
+Objetivo
+
+Controlar o acesso a nossa WebApi de forma a que somente usuário autorizados possam acessar os serviços expostos pela nossa WebAPIs 
+
+JWT - Json Web Token 
+
+-Padrão que define uma forma segura de transmitir informações entre duas partees 
+
+-A transmissão pode ser feita via URL, Post, ou em cabeçalho HTTP e a informação é assinada digitalmente por um algoritimo ou par de chaves public/privada usando RSA(sistema de criptografia de chave publica)
+
+-São usado assim tokens criptografados para permitir o acesso aos recursoso de uma WebApi - (essa abordagem é conhecida como Bearer Authentication) 
+
+Um token JTW é formado por 3 partes: header - payload - signature 
+
+Header - Contém o tipo de token (JWT) e a criptografia usada (HMAC ou RSA)
+Payload - Comtém os 'pedidos'. São declarações ou claims associadas ao usuário do token 
+Signature - Assinatura usada na validação do token usando uma chave secreta 
+
+Para gerar assinatura usamos o Header e o Payload codificando - os e a seguir assinamos usando o algoritomo definido 
+
+Usando o algoritimo definido no Header, o Header e o Payload são concatenados e assinados usando uma chave secreta
+
+A assinatura é anexada ao final do token que pode ser usado(por quem tiver a chave secreta) para verificar se o emissor do JWT é quem ela afirma ser e se o token é válido.(claims)
+
+Vantagens 
+
+1 - Te livra da dependência com o banco de dados 
+2 - Não tem session(stateless)
+3 - Pode ser usado para web, moblie, desktop, etc.
+
+De posse do token o cliente pode enviá-lo no header de cada requisição para a web API 
+
+Etapas do processo da autenticação via token JWT 
+
+1 - Controlador - Gerar token
+
+- Verificar credenciais 
+- Definir claims do usuário (nome, Email, etc.)
+- Definir a chaves secreta e algoritmo de encriptação usados 
+- Gerar token com base no emissor, audiência, claims e definir a data de expiração
+
+2 - Startup : validar o token 
+
+- Validar emissor 
+- Validar audiência 
+- Validar assinatura com chave secreta 
+
+
+

@@ -1,0 +1,28 @@
+Considerações 
+
+- Consideração sobre o padrão repositório e Unit Of Work
+
+
+Uma das principais vantagens de usdar esses padrões centralizar as consultas e desacoplar nossa aplicação do entityFramework Core, permite facilitar os testes unitarios 
+
+Entity Framework Core e os padrão Repositorye UnitOfWork
+
+O DbContext - Atua como uma UnitOfWork e possui DbSets eSaveChanges()
+
+O DbSet - Representa uma coleção de objetos na memoria (add, remove, etc.) - retorna IQueryable 
+
+IEnumerable filtra os dados no cliente então na hora que for fazer a consulta ele retorna todos os registros no banco de dados e fazo filtro na memoria 
+
+IQueryable faz o filtro no banco de dados mandando apenas os registro requiridos 
+
+A diferença entre IEnunmerable e IQueryable é onde o filtro é executado
+O primeiro executa no cliente e outro execulta no banco de dados 
+
+Vantagens de usar 
+
+IEnumerable - Tratar coleção de dados na memória 
+
+IQueryable - Permite consultar a coleção de dados e estender consultas 
+
+
+

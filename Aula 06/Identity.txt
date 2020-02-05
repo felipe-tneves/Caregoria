@@ -1,0 +1,14 @@
+Identity 
+
+Autenticação JWT 
+
+Preparando o projeto : Habilitando o Identity 
+
+Usar o Identity e criar as tabelas para persistência das informações do usuário com as informações de login 
+
+Vamos usar e configurar o Identity e usando o banco de dados MySQL para armazenar nomes de usuário, senha e dadps de perfil.
+
+Precisamos desses recursos para pode autenticar o usuário e assim gerar o token JWT 
+
+
+
